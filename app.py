@@ -8,7 +8,7 @@ def index():
     if request.method == 'POST':
         # Give data?
         return request.data
-    return 'Flask'
+    return 'Flask!'
 
 
 if __name__ == '__main__':
