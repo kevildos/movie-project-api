@@ -14,28 +14,31 @@ db = SQLAlchemy(app)
 # Init ma
 ma = Marshmallow(app)
 
-# Routes
+# Index
 @app.route('/', methods=['GET'])
 def index():
     return 'Flask!'
 
+# Post Movie
+@app.route('/movie', methods=['GET','POST'])
+def add_movie(): 
+    if request.method == 'POST':
+        name = request.json['name']
+        date = request.json['date']
+        description = request.json['description']
 
-@app.route('/movie', methods=['POST'])
-def add_movie():
-    name = request.json['name']
-    date = request.json['date']
-    description = request.json['description']
+        new_movie = Movie(name, date, description)
 
-    new_movie = Movie(name, date, description)
+        db.session.add(new_movie)
+        db.session.commit()
 
-    db.session.add(new_movie)
-    db.session.commit()
-
-    return movie_schema.jsonify(new_movie)
-
+        return movie_schema.jsonify(new_movie)
+    else:
+        return 'You did it!'
 
 # Run Server
 if __name__ == '__main__':
+
     app.run(debug=True)
 
 
