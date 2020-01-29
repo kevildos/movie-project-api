@@ -15,7 +15,7 @@ The current operations include
 ## Quick Start
 The API can be accessed at http://movie-api-stage.herokuapp.com/
 
-If you want to run the development build, clone the Github repository and run `npm start` in the root project directory.
+If you want to run the development build, clone the Github repository, start the virtual environment using `source env/bin/activate` and run `python3 app.py` in the root project directory.
 
 ## Status
 The app can be accessed and used on the firebaseapp domain. I have plans to connect the API to a mySQL server to become more familiar with the technology, but since SQLite allows you to store 0.5MB, that is enough for my purposes.
