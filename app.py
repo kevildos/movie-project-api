@@ -59,7 +59,7 @@ def add_movie():
 
         return movie_schema.jsonify(new_movie)
     else:
-        query_movie = Movie.query.filter_by(id=2).first();
+        query_movie = Movie.query.filter_by(id=4).first();
         return movie_schema.jsonify(query_movie)
 
 # Run Server
