@@ -14,6 +14,28 @@ db = SQLAlchemy(app)
 # Init ma
 ma = Marshmallow(app)
 
+# Class Model
+class Movie(db.Model):
+    id = db.Column('id', db.Integer, primary_key=True)
+    name = db.Column('name', db.String(80), unique=True, nullable=False)
+    date = db.Column('date', db.String(80), nullable=False)
+    description = db.Column('description', db.String(
+        365), nullable=False)
+
+    def __init__(self, name, date, description):
+        self.name = name
+        self.date = date
+        self.description = description
+
+# Movie Schema
+class MovieSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'name', 'date', 'description')
+
+# Init schema
+movie_schema = MovieSchema()
+movies_schema = MovieSchema(many=True)
+
 # Index
 @app.route('/', methods=['GET'])
 def index():
@@ -24,8 +46,11 @@ def index():
 def add_movie(): 
     if request.method == 'POST':
         name = request.json['name']
+        print(name)
         date = request.json['date']
+        print(date)
         description = request.json['description']
+        print(description)
 
         new_movie = Movie(name, date, description)
 
@@ -34,7 +59,8 @@ def add_movie():
 
         return movie_schema.jsonify(new_movie)
     else:
-        return 'You did it!'
+        query_movie = Movie.query.filter_by(id=2).first();
+        return movie_schema.jsonify(query_movie)
 
 # Run Server
 if __name__ == '__main__':
@@ -42,27 +68,5 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
-# Class Model
-class Movie(db.Model):
-    id = db.Column('id', db.Integer, primary_key=True)
-    name = db.Column('name', db.String(80), unique=True, nullable=False)
-    date = db.Column('date', db.String(80), unique=True, nullable=False)
-    description = db.Column('description', db.String(
-        365), unique=True, nullable=False)
-
-    def __init__(self, name, date, description):
-        self.name = name
-        self.date = date
-        self.description = description
-
-# Movie Schema
 
 
-class MovieSchema(ma.Schema):
-    class Meta:
-        fields = ('id', 'name', 'date', 'description')
-
-
-# Init schema
-movie_schema = MovieSchema()
-movies_schema = MovieSchema(many=True)
